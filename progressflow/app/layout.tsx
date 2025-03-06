@@ -3,6 +3,13 @@ import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
 
+// ✅ Import fonts using `next/font/google`
+import { Outfit, Quicksand } from "next/font/google"
+
+// Load fonts with subsets for optimization
+const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] })
+const quicksand = Quicksand({ subsets: ["latin"], weight: ["400", "500", "600", "700"] })
+
 export const metadata: Metadata = {
   title: "ProgressFlow",
   description: "Interactive flowchart teaching tool",
@@ -20,21 +27,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* Preload Inter font with crossOrigin attribute */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-          crossOrigin="anonymous"
-        />
-      </head>
-      <body className="font-quicksand">
+      <body className={`${quicksand.className} ${outfit.className}`}>
         {children}
         <Analytics />
       </body>
     </html>
   )
 }
-
