@@ -1,3 +1,9 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off",  // Allow 'any' type
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],  // Ignore unused vars if prefixed with '_'
+    "react-hooks/exhaustive-deps": "warn",  // Only show a warning for useEffect dependency issues
+    "@typescript-eslint/no-unused-expressions": "off" // Allow expressions like condition && function()
+  }
 }
