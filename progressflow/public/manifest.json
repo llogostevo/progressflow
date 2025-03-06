@@ -1,0 +1,17 @@
+{
+  "name": "ProgressFlow",
+  "short_name": "ProgressFlow",
+  "description": "Interactive flowchart teaching tool",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#9333ea",
+  "icons": [
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
+
