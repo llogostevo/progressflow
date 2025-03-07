@@ -183,10 +183,14 @@ const OrthogonalEdge = ({
     sourceHandleId,
   )
 
-  const onEdgeClick = (evt: React.MouseEvent<SVGGElement, MouseEvent>, id: string) => {
-    evt.stopPropagation()
-    setEdges((edges) => edges.filter((edge) => edge.id !== id))
-  }
+  const onEdgeClick = (
+    evt: React.MouseEvent<SVGGElement | HTMLDivElement>,
+    id: string
+  ) => {
+    evt.stopPropagation();
+    setEdges((edges) => edges.filter((edge) => edge.id !== id));
+  };
+
 
   // Default style with gray color
   const defaultStyle = {
@@ -230,7 +234,7 @@ const OrthogonalEdge = ({
               cursor: "pointer",
             }}
             className="nodrag nopan"
-            onClick={(event) => onEdgeClick(event, id)}
+            onClick={(event) => onEdgeClick(event as React.MouseEvent<SVGGElement | HTMLDivElement>, id)}
           >
             <div className="bg-red-500 text-white p-1 rounded-full">
               <Trash2 size={16} />
