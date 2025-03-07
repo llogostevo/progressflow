@@ -2,53 +2,60 @@
 
 import type React from "react"
 import { useRef, useState } from "react"
-import type { NodeProps } from "../types"
+import { type NodeProps } from "reactflow"; 
 import { DragPreviewImage } from "./drag-preview-image"
 
+ 
+
 interface IterationNodeProps extends NodeProps {
-  trueSlotFilled: boolean
-  falseSlotFilled: boolean
+  position: { x: number; y: number }; 
+  trueSlotFilled: boolean;
+  falseSlotFilled: boolean;
+  onDragStart: (event: React.DragEvent, id: string) => void;
+  onDragEnd: (event: React.DragEvent) => void;
+  children?: React.ReactNode; 
 }
+
+
 
 const IterationNode: React.FC<IterationNodeProps> = ({
   id,
-  x,
-  y,
+  position,
   trueSlotFilled,
   falseSlotFilled,
   onDragStart,
   onDragEnd,
   children,
 }) => {
-  const [isDraggingOverTrue, setIsDraggingOverTrue] = useState(false)
-  const [isDraggingOverFalse, setIsDraggingOverFalse] = useState(false)
-  const trueSlotRef = useRef<HTMLDivElement>(null)
-  const falseSlotRef = useRef<HTMLDivElement>(null)
+  const [isDraggingOverTrue, setIsDraggingOverTrue] = useState(false);
+  const [isDraggingOverFalse, setIsDraggingOverFalse] = useState(false);
+  const trueSlotRef = useRef<HTMLDivElement>(null);
+  const falseSlotRef = useRef<HTMLDivElement>(null);
 
   const handleDragOver = (e: React.DragEvent, slot: "true" | "false") => {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
     if (slot === "true") {
-      setIsDraggingOverTrue(true)
+      setIsDraggingOverTrue(true);
     } else {
-      setIsDraggingOverFalse(true)
+      setIsDraggingOverFalse(true);
     }
-  }
+  };
 
   const handleDragLeave = (slot: "true" | "false") => {
     if (slot === "true") {
-      setIsDraggingOverTrue(false)
+      setIsDraggingOverTrue(false);
     } else {
-      setIsDraggingOverFalse(false)
+      setIsDraggingOverFalse(false);
     }
-  }
+  };
 
   return (
     <div
       className="relative"
       style={{
-        left: `${x}px`,
-        top: `${y}px`,
+        left: `${position.x}px`,
+        top: `${position.y}px`,
       }}
       draggable
       onDragStart={(e) => onDragStart(e, id)}
@@ -87,8 +94,7 @@ const IterationNode: React.FC<IterationNodeProps> = ({
       </div>
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default IterationNode
-
+export default IterationNode;
