@@ -226,14 +226,28 @@ const FlowchartTeachingTool = () => {
       }
 
       // Create a custom edge with the orthogonal type
+      // const newEdge: Edge = {
+      //   ...params,
+      //   type: "orthogonal",
+      //   data: {
+      //     sourceHandleId: params.sourceHandle,
+      //   },
+      //   style: { stroke: "#888888" },
+      // }
       const newEdge: Edge = {
-        ...params,
+        id: `${params.source}-${params.target}-${Date.now()}`, // ✅ Unique ID
+        source: params.source ?? "unknown-source", // ✅ Ensure valid string
+        target: params.target ?? "unknown-target",
         type: "orthogonal",
+        sourceHandle: params.sourceHandle ?? null,
+        targetHandle: params.targetHandle ?? null,
         data: {
-          sourceHandleId: params.sourceHandle,
+          sourceHandleId: params.sourceHandle ?? null,
         },
         style: { stroke: "#888888" },
-      }
+      };
+
+
       setEdges((eds) => addEdge(newEdge, eds))
     },
     [setEdges, edges, nodes, saveHistory],
@@ -522,26 +536,54 @@ const FlowchartTeachingTool = () => {
         setEdges((eds) => eds.filter((e) => e.id !== edgeId))
 
         // Create new edges to connect the new node
+        // const newEdges: Edge[] = [
+        //   {
+        //     id: `${source}-${nodeId}`,
+        //     source,
+        //     target: nodeId,
+        //     type: "orthogonal",
+        //     sourceHandle: data?.sourceHandleId,
+        //     data: {
+        //       sourceHandleId: data?.sourceHandleId,
+        //     },
+        //     style: { stroke: "#888888" },
+        //   },
+        //   {
+        //     id: `${nodeId}-${target}`,
+        //     source: nodeId,
+        //     target,
+        //     type: "orthogonal",
+        //     style: { stroke: "#888888" },
+        //   },
+        // ]
+
         const newEdges: Edge[] = [
           {
-            id: `${source}-${nodeId}`,
-            source,
-            target: nodeId,
+            id: `${source}-${nodeId}-${Date.now()}`, // ✅ Ensure unique ID
+            source: source ?? "unknown-source",
+            target: nodeId ?? "unknown-target",
             type: "orthogonal",
-            sourceHandle: data?.sourceHandleId,
+            sourceHandle: data?.sourceHandleId ?? null,
+            targetHandle: null,
             data: {
-              sourceHandleId: data?.sourceHandleId,
+              sourceHandleId: data?.sourceHandleId ?? null,
             },
             style: { stroke: "#888888" },
           },
           {
-            id: `${nodeId}-${target}`,
-            source: nodeId,
-            target,
+            id: `${nodeId}-${target}-${Date.now()}`,
+            source: nodeId ?? "unknown-source",
+            target: target ?? "unknown-target",
             type: "orthogonal",
+            sourceHandle: null,
+            targetHandle: null,
+            data: {},
             style: { stroke: "#888888" },
           },
-        ]
+        ];
+
+
+
 
         setEdges((eds) => [...eds, ...newEdges])
       }
@@ -672,30 +714,41 @@ const FlowchartTeachingTool = () => {
         })
 
         // Use html-to-image with specific settings
+        // toPng(flowElement, {
+        //   backgroundColor: "#fff",
+        //   width: canvasWidth,
+        //   height: canvasHeight,
+        //   skipFonts: false, // Include fonts to ensure text renders correctly
+        //   filter: (node) => {
+        //     return !node.classList?.contains("react-flow__panel")
+        //   },
+        //   style: {
+        //     ".react-flow__edge-path": {
+        //       strokeWidth: "1.5px",
+        //       stroke: "#888888",
+        //       fill: "none",
+        //     },
+        //     ".react-flow__edge": {
+        //       strokeLinecap: "square",
+        //       strokeLinejoin: "miter",
+        //     },
+        //     ".font-bold": {
+        //       whiteSpace: "nowrap",
+        //     },
+        //   },
+        //   cacheBust: true,
+        // })
         toPng(flowElement, {
           backgroundColor: "#fff",
           width: canvasWidth,
           height: canvasHeight,
-          skipFonts: false, // Include fonts to ensure text renders correctly
+          skipFonts: false,
           filter: (node) => {
-            return !node.classList?.contains("react-flow__panel")
-          },
-          style: {
-            ".react-flow__edge-path": {
-              strokeWidth: "1.5px",
-              stroke: "#888888",
-              fill: "none",
-            },
-            ".react-flow__edge": {
-              strokeLinecap: "square",
-              strokeLinejoin: "miter",
-            },
-            ".font-bold": {
-              whiteSpace: "nowrap",
-            },
+            return !node.classList?.contains("react-flow__panel");
           },
           cacheBust: true,
         })
+
           .then((dataUrl) => {
             const link = document.createElement("a")
             link.download = "flowchart.png"

@@ -1,9 +1,8 @@
 import { Analytics } from "@vercel/analytics/react"
 import type React from "react"
 import type { Metadata } from "next"
-import "./globals.css"
+import "@/styles/global.css";
 
-// ✅ Import fonts using `next/font/google`
 import { Outfit, Quicksand } from "next/font/google"
 
 // Load fonts with subsets for optimization

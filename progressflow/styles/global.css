@@ -1,0 +1,15 @@
+.react-flow__edge-path {
+    stroke-width: 1.5px;
+    stroke: #888888;
+    fill: none;
+  }
+  
+  .react-flow__edge {
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+  }
+  
+  .font-bold {
+    white-space: nowrap;
+  }
+  
